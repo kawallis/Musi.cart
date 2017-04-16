@@ -36,8 +36,8 @@ function loop() {
   requestAnimationFrame(loop);
   analyzer.getByteFrequencyData(dataArray);
   // console.log(dataArray);
+  console.log(dataArray);
   var newArr = dataArray.slice(43);
-  console.log(newArr);
   song.play();
   myChart.data.datasets[0].data = newArr;
   // updateChart();
