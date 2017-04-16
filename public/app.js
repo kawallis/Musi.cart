@@ -15,8 +15,11 @@ var analyzer = AUDIO.createAnalyser();
 analyzer.fftSize = 128;
 
 var bufferLength = analyzer.frequencyBinCount;
-var dataArray = new Uint8Array(bufferLength);
 
+var ab = new ArrayBuffer(bufferLength);
+
+var dataArray = new Uint8Array(ab);
+console.log(dataArray);
 // grabs the audio HTML element
 var song = document.getElementById('audioElement');
 
