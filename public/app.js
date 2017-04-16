@@ -37,7 +37,7 @@ function loop() {
   analyzer.getByteFrequencyData(dataArray);
   // console.log(dataArray);
   var newArr = dataArray.slice(43);
-  
+  console.log(newArr);
   song.play();
   myChart.data.datasets[0].data = newArr;
   // updateChart();
@@ -122,8 +122,6 @@ var myChart = new Chart(ctx, {
     }
   }
 });
-
-helpers.retinaScale(myChart);
 
 
 // song.addEventListener('loadeddata', init, false);
