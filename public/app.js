@@ -1,9 +1,15 @@
 'use strict';
+
+
+var button = document.getElementsByTagName('button');
+button[0].addEventListener('click', function (event) {
+  init();
+});
 // Create audio context
 
 var AUDIO = new (window.AudioContext || window.webkitAudioContext)();
 if(!AUDIO) console.error('Web Audio API not supported :(');
-;
+
 // Create and configure analyzer node and storage buffer
 var analyzer = AUDIO.createAnalyser();
 analyzer.fftSize = 128;
@@ -20,6 +26,7 @@ function init() {
   var source = AUDIO.createMediaElementSource(song);
   source.connect(analyzer);
   analyzer.connect(AUDIO.destination);
+
   loop();
 }
 
@@ -30,6 +37,7 @@ function loop() {
   analyzer.getByteFrequencyData(dataArray);
   // console.log(dataArray);
   var newArr = dataArray.slice(43);
+  
   song.play();
   myChart.data.datasets[0].data = newArr;
   // updateChart();
@@ -118,4 +126,4 @@ var myChart = new Chart(ctx, {
 
 
 
-song.addEventListener('loadeddata', init, false);
+// song.addEventListener('loadeddata', init, false);
