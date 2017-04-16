@@ -103,7 +103,6 @@ var myChart = new Chart(ctx, {
     }]
   },
   options: {
-    responsive: false,
     scales: {
       xAxes: [{
         gridLines: {
@@ -124,7 +123,7 @@ var myChart = new Chart(ctx, {
   }
 });
 
-
+helpers.retinaScale(myChart);
 
 
 // song.addEventListener('loadeddata', init, false);
