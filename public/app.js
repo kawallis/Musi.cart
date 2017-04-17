@@ -3,10 +3,11 @@
 
 var button = document.getElementsByTagName('button');
 button[0].addEventListener('click', function (event) {
+
   init();
 });
-// Create audio context
 
+// Create audio context
 var AUDIO = new (window.AudioContext || window.webkitAudioContext)();
 if(!AUDIO) console.error('Web Audio API not supported :(');
 
@@ -16,8 +17,8 @@ analyzer.fftSize = 128;
 
 var bufferLength = analyzer.frequencyBinCount;
 
+//tried to wrap array to fix error
 var ab = new ArrayBuffer(bufferLength);
-
 var dataArray = new Uint8Array(ab);
 console.log(dataArray);
 // grabs the audio HTML element
@@ -29,25 +30,31 @@ function init() {
   var source = AUDIO.createMediaElementSource(song);
   source.connect(analyzer);
   analyzer.connect(AUDIO.destination);
-
   loop();
 }
 
 
-// analyser.getByteFrequencyData(frequencyData);
+
 function loop() {
   requestAnimationFrame(loop);
   analyzer.getByteFrequencyData(dataArray);
   // console.log(dataArray);
   console.log(dataArray);
-  var newArr = dataArray.slice(43);
+  // var newArr = dataArray.slice(43);
   song.play();
-  myChart.data.datasets[0].data = newArr;
+  myChart.data.datasets[0].data = dataArray;
   // updateChart();
   myChart.update();
 }
 
-
+//creates the initial chartjs
+var colorArr = [];
+var initNumArr = [];
+for(var i = 0; i < 64; i++){
+  colorArr.push('rgb(255, 255, 0)');
+  initNumArr.push(0);
+}
+console.log(colorArr);
 var ctx = document.getElementById('myChart');
 var myChart = new Chart(ctx, {
   type: 'bar',
@@ -55,53 +62,9 @@ var myChart = new Chart(ctx, {
     labels: ['', '', '', '', '','', '', '', '', '', '', '', '', '', '','', '', '', '', '', ''],
     datasets: [{
       label: '',
-      data: [19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19],
-      backgroundColor: [
-        'rgb(255, 255, 0)',
-        'rgb(255, 255, 0)',
-        'rgb(255, 255, 0)',
-        'rgb(255, 255, 0)',
-        'rgb(255, 255, 0)',
-        'rgb(255, 255, 0)',
-        'rgb(255, 255, 0)',
-        'rgb(255, 255, 0)',
-        'rgb(255, 255, 0)',
-        'rgb(255, 255, 0)',
-        'rgb(255, 255, 0)',
-        'rgb(255, 255, 0)',
-        'rgb(255, 255, 0)',
-        'rgb(255, 255, 0)',
-        'rgb(255, 255, 0)',
-        'rgb(255, 255, 0)',
-        'rgb(255, 255, 0)',
-        'rgb(255, 255, 0)',
-        'rgb(255, 255, 0)',
-        'rgb(255, 255, 0)',
-        'rgb(255, 255, 0)'
-      ],
-      borderColor: [
-        'rgba(255,99,132,1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255,99,132,1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255,99,132,1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255,99,132,1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)'
-      ],
+      data: initNumArr,
+      backgroundColor: colorArr,
+      borderColor: colorArr,
       borderWidth: 0
     }]
   },
@@ -126,5 +89,3 @@ var myChart = new Chart(ctx, {
   }
 });
 
-
-// song.addEventListener('loadeddata', init, false);
