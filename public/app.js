@@ -1,6 +1,7 @@
 'use strict';
 // grabs the audio HTML element
 var song = document.getElementById('audioElement');
+var wave = document.getElementById('#wavesurfer');
 var button = document.getElementsByTagName('button');
 button[0].addEventListener('click', function (event) {
   init();
@@ -30,6 +31,7 @@ function init() {
 function loop() {
   requestAnimationFrame(loop);
   analyzer.getByteFrequencyData(dataArray);
+  
   song.play();
   myChart.data.datasets[0].data = dataArray;
   myChart.update();
@@ -75,3 +77,16 @@ var myChart = new Chart(ctx, {
     }
   }
 });
+
+
+var wavesurfer = WaveSurfer.create({
+  container: '#waveform',
+  waveColor: 'yellow',
+  progressColor: 'red',
+  scrollParent: true,
+  barWidth: 10,
+  height: 150,
+  audioRate: 100
+});
+
+wavesurfer.load('./temple.mp3');
